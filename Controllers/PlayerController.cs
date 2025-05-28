@@ -91,5 +91,87 @@ namespace MultiLevelTournament.Controllers
                 return BadRequest(response);
             }
         }
-     }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdatePlayer(int id, UpdatePlayerModel player)
+        {
+            BaseResponseModel response = new BaseResponseModel();
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    var existingPlayer = await _context.Players.FindAsync(id);
+                    if (existingPlayer == null)
+                    {
+                        response.Status = false;
+                        response.Message = $"Player with Id {id} not found.";
+                        return NotFound(response);
+                    }
+
+                    existingPlayer.Name = player.Name;
+                    existingPlayer.Age = player.Age;
+
+                    _context.Players.Update(existingPlayer);
+                    await _context.SaveChangesAsync();
+
+                    var updatedPlayer = new
+                    {
+                        Id = existingPlayer.Id,
+                        Name = existingPlayer.Name,
+                        Age = existingPlayer.Age
+                    };
+
+                    response.Status = true;
+                    response.Message = "Updated successfully";
+                    response.Data = updatedPlayer;
+
+                    return Ok(response);
+                }
+                else
+                {
+                    response.Status = false;
+                    response.Message = "Validation failed";
+                    response.Data = ModelState;
+                    return BadRequest(response);
+                }
+            }
+            catch (Exception)
+            {
+                response.Status = false;
+                response.Message = "Something went wrong";
+                return BadRequest(response);
+            }
+        }
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeletePlayer(int id)
+        {
+            BaseResponseModel response = new BaseResponseModel();
+
+            try
+            {
+                var existingPlayer = await _context.Players.FindAsync(id);
+                if (existingPlayer == null)
+                {
+                    response.Status = false;
+                    response.Message = $"Player with Id {id} not found.";
+                    return NotFound(response);
+                }
+
+                _context.Players.Remove(existingPlayer);
+                await _context.SaveChangesAsync();
+
+                response.Status = true;
+                response.Message = "Player deleted successfully.";
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                response.Status = false;
+                response.Message = "Something went wrong.";
+                return BadRequest(response);
+            }
+        }
+
+
+    }
 }

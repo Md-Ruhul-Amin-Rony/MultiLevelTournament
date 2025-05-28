@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("MultiLevelTournament")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+abbc7f8d166ff8ecd1dfc93e0c3c74749f5955bd")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3565c20a9acec1cab40523b241cf8de3943b7ce0")]
 [assembly: System.Reflection.AssemblyProductAttribute("MultiLevelTournament")]
 [assembly: System.Reflection.AssemblyTitleAttribute("MultiLevelTournament")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

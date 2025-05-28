@@ -3,8 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\adiar\\source\\MultiLevelTournament\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|c:\\users\\adiar\\source\\multileveltournament\\services\\tournamentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|solutionrelative:services\\tournamentservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|c:\\users\\adiar\\source\\multileveltournament\\controllers\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|solutionrelative:controllers\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|c:\\users\\adiar\\source\\multileveltournament\\models\\updateplayermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|solutionrelative:models\\updateplayermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}|MultiLevelTournament.csproj|c:\\users\\adiar\\source\\multileveltournament\\models\\createplayermodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -58,7 +66,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Bookmark",
@@ -70,7 +78,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 0,
+              "Title": "TournamentService.cs",
+              "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Services\\TournamentService.cs",
+              "RelativeDocumentMoniker": "Services\\TournamentService.cs",
+              "ToolTip": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Services\\TournamentService.cs",
+              "RelativeToolTip": "Services\\TournamentService.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T09:39:19.421Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "UpdatePlayerModel.cs",
+              "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Models\\UpdatePlayerModel.cs",
+              "RelativeDocumentMoniker": "Models\\UpdatePlayerModel.cs",
+              "ToolTip": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Models\\UpdatePlayerModel.cs",
+              "RelativeToolTip": "Models\\UpdatePlayerModel.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAkAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-28T09:22:40.469Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "CreatePlayerModel.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Models\\CreatePlayerModel.cs",
               "RelativeDocumentMoniker": "Models\\CreatePlayerModel.cs",
@@ -78,12 +112,11 @@
               "RelativeToolTip": "Models\\CreatePlayerModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAQAAAAKAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T08:37:56.928Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T08:37:56.928Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 5,
               "Title": "BaseResponseModel.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Models\\BaseResponseModel.cs",
               "RelativeDocumentMoniker": "Models\\BaseResponseModel.cs",
@@ -91,25 +124,24 @@
               "RelativeToolTip": "Models\\BaseResponseModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T08:24:21.351Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T08:24:21.351Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "PlayerController.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Controllers\\PlayerController.cs",
               "RelativeDocumentMoniker": "Controllers\\PlayerController.cs",
               "ToolTip": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Controllers\\PlayerController.cs",
               "RelativeToolTip": "Controllers\\PlayerController.cs",
-              "ViewState": "AQIAAC4AAAAAAAAAAAAAAEcAAAAxAAAA",
+              "ViewState": "AQIAAIkAAAAAAAAAAAAmwK0AAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-28T08:20:06.87Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 6,
               "Title": "WeatherForecastController.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Controllers\\WeatherForecastController.cs",
               "RelativeDocumentMoniker": "Controllers\\WeatherForecastController.cs",
@@ -117,12 +149,11 @@
               "RelativeToolTip": "Controllers\\WeatherForecastController.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAACEAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T08:18:56.31Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T08:18:56.31Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "Player.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Entities\\Player.cs",
               "RelativeDocumentMoniker": "Entities\\Player.cs",
@@ -130,12 +161,11 @@
               "RelativeToolTip": "Entities\\Player.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-27T13:39:51.537Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-27T13:39:51.537Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 7,
               "Title": "20250528075811_initial.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Migrations\\20250528075811_initial.cs",
               "RelativeDocumentMoniker": "Migrations\\20250528075811_initial.cs",
@@ -143,12 +173,11 @@
               "RelativeToolTip": "Migrations\\20250528075811_initial.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAsAAAAJAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-28T07:58:12.254Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-28T07:58:12.254Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 11,
               "Title": "appsettings.Development.json",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\appsettings.Development.json",
               "RelativeDocumentMoniker": "appsettings.Development.json",
@@ -160,7 +189,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 12,
               "Title": "appsettings.json",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\appsettings.json",
               "RelativeDocumentMoniker": "appsettings.json",
@@ -172,7 +201,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 8,
               "Title": "TournamentDbContext.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Data\\TournamentDbContext.cs",
               "RelativeDocumentMoniker": "Data\\TournamentDbContext.cs",
@@ -184,7 +213,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "Tournament.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Entities\\Tournament.cs",
               "RelativeDocumentMoniker": "Entities\\Tournament.cs",
@@ -196,7 +225,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 10,
               "Title": "TournamentPlayer.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Entities\\TournamentPlayer.cs",
               "RelativeDocumentMoniker": "Entities\\TournamentPlayer.cs",
@@ -208,7 +237,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 13,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\adiar\\source\\MultiLevelTournament\\Program.cs",
               "RelativeDocumentMoniker": "Program.cs",
