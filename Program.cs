@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MultiLevelTournament.Data;
+using MultiLevelTournament.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<ITournamentService, TournamentService>();
+
 builder.Services.AddDbContext<TournamentDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
