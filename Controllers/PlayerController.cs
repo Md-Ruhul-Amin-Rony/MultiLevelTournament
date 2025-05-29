@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MultiLevelTournament.Data;
 using MultiLevelTournament.Models;
+using MultiLevelTournament.Services;
 using System;
 
 namespace MultiLevelTournament.Controllers
@@ -12,12 +13,11 @@ namespace MultiLevelTournament.Controllers
     [ApiController]
     public class PlayerController : ControllerBase
     {
-        private readonly TournamentDbContext _context;
+        private readonly IPlayerService _playerService;
 
-        public PlayerController(TournamentDbContext context)
+        public PlayerController(IPlayerService playerService)
         {
-            _context = context;
-            
+            _playerService = playerService;
         }
 
 
@@ -27,60 +27,66 @@ namespace MultiLevelTournament.Controllers
             BaseResponseModel response = new BaseResponseModel();
             try
             {
-                var playerCount = await _context.Players.CountAsync();
-                var playerList = await _context.Players.ToListAsync();
+                var players = await _playerService.GetAllPlayersAsync();
                 response.Status = true;
-                response.Message = "Success";
-                response.Data = new { Person = playerList, Count = playerCount };
+                response.Message = "Players retrieved successfully.";
+                response.Data = new { Players = players, Count = players.Count() };
                 return Ok(response);
-
             }
-            catch (Exception ex) 
+            catch (Exception)
             {
-
                 response.Status = false;
-                response.Message = "Something went wrong";
-                return BadRequest(response);
+                response.Message = "Something went wrong.";
+                return StatusCode(500, response);
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var response = new BaseResponseModel();
+
+            try
+            {
+                var player = await _playerService.GetPlayerByIdAsync(id);
+                if (player == null)
+                {
+                    response.Status = false;
+                    response.Message = $"Player with Id {id} not found.";
+                    return NotFound(response);
+                }
+
+                response.Status = true;
+                response.Message = "Player retrieved successfully.";
+                response.Data = player;
+                return Ok(response);
+            }
+            catch (Exception)
+            {
+                response.Status = false;
+                response.Message = "Something went wrong.";
+                return StatusCode(500, response);
+            }
+        }
+
         [HttpPost]
         public async Task<IActionResult> CreatePlayer(CreatePlayerModel player)
         {
             BaseResponseModel response = new BaseResponseModel();
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var newPlayer = new Player()
-                    {
-                        Name = player.Name,
-                        Age = player.Age
-                    };
-                    await _context.Players.AddAsync(newPlayer);
-                    await _context.SaveChangesAsync();
-
-                    //  player.Id = postedModel.Id;
-                    var createdPlayer = new
-                    {
-                        Id = newPlayer.Id,
-                        Name = newPlayer.Name,
-                        Age= newPlayer.Age
-
-                    };
-                    response.Status = true;
-                    response.Message = "Created Successfully";
-                    response.Data = createdPlayer;
-
-                    return Ok(response);
-
-                }
-                else
+                if (!ModelState.IsValid)
                 {
                     response.Status = false;
-                    response.Message = "Validation failed";
+                    response.Message = "Validation failed.";
                     response.Data = ModelState;
                     return BadRequest(response);
                 }
+                var newPlayer = await _playerService.CreatePlayerAsync(player);
+                response.Status = true;
+                response.Message = "Player created successfully.";
+                response.Data = newPlayer;
+                return Ok(response);
 
             }
             catch (Exception ex)
@@ -95,52 +101,38 @@ namespace MultiLevelTournament.Controllers
         public async Task<IActionResult> UpdatePlayer(int id, UpdatePlayerModel player)
         {
             BaseResponseModel response = new BaseResponseModel();
-
             try
             {
-                if (ModelState.IsValid)
-                {
-                    var existingPlayer = await _context.Players.FindAsync(id);
-                    if (existingPlayer == null)
-                    {
-                        response.Status = false;
-                        response.Message = $"Player with Id {id} not found.";
-                        return NotFound(response);
-                    }
-
-                    existingPlayer.Name = player.Name;
-                    existingPlayer.Age = player.Age;
-
-                    _context.Players.Update(existingPlayer);
-                    await _context.SaveChangesAsync();
-
-                    var updatedPlayer = new
-                    {
-                        Id = existingPlayer.Id,
-                        Name = existingPlayer.Name,
-                        Age = existingPlayer.Age
-                    };
-
-                    response.Status = true;
-                    response.Message = "Updated successfully";
-                    response.Data = updatedPlayer;
-
-                    return Ok(response);
-                }
-                else
+                if (!ModelState.IsValid)
                 {
                     response.Status = false;
-                    response.Message = "Validation failed";
+                    response.Message = "VValidation failed";
                     response.Data = ModelState;
                     return BadRequest(response);
+
                 }
+                var updatedPlayer = await _playerService.UpdatePlayerAsync(id, player);
+                if (updatedPlayer is null)
+                {
+                    response.Status = false;
+                    response.Message = $"Player with {id} not found";
+                    return NotFound(response);
+                }
+                response.Status = true;
+                response.Message = "Player updated successfully";
+                response.Data = updatedPlayer;
+                return Ok(response);
+
             }
-            catch (Exception)
+            catch (Exception ex)
             {
+
                 response.Status = false;
                 response.Message = "Something went wrong";
-                return BadRequest(response);
+                return BadRequest(response); 
             }
+           
+            
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePlayer(int id)
@@ -149,22 +141,20 @@ namespace MultiLevelTournament.Controllers
 
             try
             {
-                var existingPlayer = await _context.Players.FindAsync(id);
-                if (existingPlayer == null)
+                 var deletedPlayer = await _playerService.DeletePlayerAsync(id);
+                if (!deletedPlayer)
                 {
                     response.Status = false;
                     response.Message = $"Player with Id {id} not found.";
                     return NotFound(response);
                 }
 
-                _context.Players.Remove(existingPlayer);
-                await _context.SaveChangesAsync();
-
                 response.Status = true;
                 response.Message = "Player deleted successfully.";
+                response.Data = null;
                 return Ok(response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
                 response.Status = false;
                 response.Message = "Something went wrong.";

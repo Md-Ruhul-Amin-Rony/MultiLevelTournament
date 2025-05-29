@@ -36,47 +36,6 @@ namespace MultiLevelTournament.Data
         }
 
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-
-        //    modelBuilder.Entity<Player>(entity =>
-        //    {
-        //        entity.HasKey(e => e.Id);
-        //        entity.Property(e => e.Name).IsRequired().HasMaxLength(100);
-        //        entity.Property(e => e.Age).IsRequired();
-        //    });
-
-
-        //    modelBuilder.Entity<Tournament>(entity =>
-        //    {
-        //        entity.HasKey(e => e.Id);
-        //        entity.Property(e => e.Name).IsRequired().HasMaxLength(200);
-
-
-
-        //        entity.HasOne(e => e.ParentTournament)
-        //              .WithMany(e => e.SubTournaments)
-        //              .HasForeignKey(e => e.ParentTournamentId)
-        //              .OnDelete(DeleteBehavior.Restrict);
-        //    });
-
-
-        //    modelBuilder.Entity<TournamentPlayer>(entity =>
-        //    {
-        //        entity.HasKey(e => new { e.TournamentId, e.PlayerId });
-
-        //        entity.HasOne(e => e.Tournament)
-        //              .WithMany(e => e.TournamentPlayers)
-        //              .HasForeignKey(e => e.TournamentId)
-        //              .OnDelete(DeleteBehavior.Cascade);
-
-        //        entity.HasOne(e => e.Player)
-        //              .WithMany(e => e.TournamentPlayers)
-        //              .HasForeignKey(e => e.PlayerId)
-        //              .OnDelete(DeleteBehavior.Cascade);
-        //    });
-
-        //    base.OnModelCreating(modelBuilder);
-        //}
+        
     }
 }

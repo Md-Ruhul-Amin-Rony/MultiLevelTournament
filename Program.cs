@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MultiLevelTournament.Data;
+using MultiLevelTournament.Repositories;
 using MultiLevelTournament.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +11,8 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddScoped<IPlayerRepository, PlayerRepository>();
+builder.Services.AddScoped<IPlayerService, PlayerService>();
 builder.Services.AddScoped<ITournamentService, TournamentService>();
 
 builder.Services.AddDbContext<TournamentDbContext>(options =>
