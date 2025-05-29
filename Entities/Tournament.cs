@@ -9,7 +9,7 @@
         public Tournament? ParentTournament { get; set; }
         public ICollection<Tournament> SubTournaments { get; set; } = new List<Tournament>();
         public ICollection<TournamentPlayer> PlayerTournaments { get; set; } = new List<TournamentPlayer>();
-        public const int MaxDepthLevel = 4;
+       // public const int MaxDepthLevel = 4;
         //Helper method to check the depth level of the tournament
         public int GetDepthLevel()
         {
@@ -23,10 +23,10 @@
             }
             return level;
         }
-        public bool CanAddSubTournament()
-        {
-            return GetDepthLevel() < MaxDepthLevel;
-        }
+        //public bool CanAddSubTournament()
+        //{
+        //    return GetDepthLevel() < MaxDepthLevel;
+        //}
 
 
 
