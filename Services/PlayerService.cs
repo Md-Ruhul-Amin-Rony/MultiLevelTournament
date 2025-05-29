@@ -38,7 +38,14 @@ namespace MultiLevelTournament.Services
             {
                 Id = player.Id,
                 Name = player.Name,
-                Age = player.Age
+                Age = player.Age,
+                Tournaments = player.PlayerTournaments.Select(pt => new TournamentInfo
+                {
+                    Id = pt.Tournament.Id,
+                    Name = pt.Tournament.Name,
+                }).ToList()
+
+
             };
         }
 
@@ -51,7 +58,12 @@ namespace MultiLevelTournament.Services
             {
                 Id = p.Id,
                 Name = p.Name,
-                Age = p.Age
+                Age = p.Age,
+                Tournaments = p.PlayerTournaments.Select(pt => new TournamentInfo
+                {
+                    Id = pt.Tournament.Id,
+                    Name = pt.Tournament.Name,
+                }).ToList()
             });
         }
 

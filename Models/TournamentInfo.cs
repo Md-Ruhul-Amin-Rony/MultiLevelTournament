@@ -1,10 +1,8 @@
 ﻿namespace MultiLevelTournament.Models
 {
-    public class PlayerViewModel
+    public class TournamentInfo
     {
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
-        public int Age { get; set; }
-        public List<TournamentInfo> Tournaments { get; set; } = new();
     }
 }
