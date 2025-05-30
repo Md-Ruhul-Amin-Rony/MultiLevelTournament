@@ -21,12 +21,19 @@ namespace MultiLevelTournament.Services
             };
             if (model.ParentTournamentId.HasValue)
             {
-                var parent = await _tournamentRepository.GetTournamentByIdWithParentsAsync(model.ParentTournamentId.Value);
-                if (parent == null || parent.GetDepthLevel() >= 4)
-                {
+                var depth = await _tournamentRepository.CalculateDepthLevelAsync(model.ParentTournamentId.Value);
+
+                if (depth >= 4)
                     return null;
-                }
-                newTournament.ParentTournament = parent;
+
+                newTournament.ParentTournamentId = model.ParentTournamentId;
+
+                //var parent = await _tournamentRepository.GetTournamentByIdWithParentsAsync(model.ParentTournamentId.Value);
+                //if (parent == null || parent.GetDepthLevel() >= 4)
+                //{
+                //    return null;
+                //}
+                //newTournament.ParentTournament = parent;
             }
             var createdTournament = await _tournamentRepository.CreateTournamentAsync(newTournament);
             return MapToViewModel(createdTournament);
@@ -39,14 +46,14 @@ namespace MultiLevelTournament.Services
                 Id = tournament.Id,
                 Name = tournament.Name,
                 ParentTournamentId = tournament.ParentTournamentId,
-                SubTournaments = tournament.SubTournaments.Select(MapToViewModel).ToList(),
+                SubTournaments = tournament.SubTournaments?.Select(MapToViewModel).ToList() ?? new List<TournamentViewModel>(),
                 Players = tournament.PlayerTournaments?
                 .Select(pt => new PlayerViewModel
                 {
                     Id = pt.Player.Id,
                     Name = pt.Player.Name,
-                    Age = pt.Player.Age,
-                    Tournaments = new List<TournamentInfo>()
+                    Age = pt.Player.Age
+                    //Tournaments = new List<TournamentInfo>()
                 }).ToList() ?? new List<PlayerViewModel>()
 
             };

@@ -28,24 +28,54 @@ namespace MultiLevelTournament.Repositories
                     .ThenInclude(pt => pt.Player)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
-        public async Task<Tournament?> GetTournamentByIdWithParentsAsync(int id)
-        {
-            var current = await _context.Tournaments
-        .Include(t => t.ParentTournament)
-        .FirstOrDefaultAsync(t => t.Id == id);
+        //public async Task<Tournament?> GetTournamentByIdWithParentsAsync(int id)
+        //{
+        //    var current = await _context.Tournaments
+        // .FirstOrDefaultAsync(t => t.Id == id);
+        //    if (current == null) return null;
 
-            // Manually walk up the tree to hydrate full parent chain
-            var root = current;
-            while (root?.ParentTournamentId != null)
+
+
+
+        //    Tournament? parent = current;
+
+        //    while (parent?.ParentTournamentId != null)
+        //    {
+        //        var fullParent = await _context.Tournaments
+        //            .FirstOrDefaultAsync(t => t.Id == parent.ParentTournamentId);
+
+        //        if (fullParent == null)
+        //            break;
+
+        //        parent.ParentTournament = fullParent;
+        //        parent = fullParent;
+        //    }
+
+        //    return current;
+        //}
+
+        public async Task<int> CalculateDepthLevelAsync(int tournamentId)
+        {
+            int depth = 0;
+            var currentId = tournamentId;
+
+            while (true)
             {
-                root.ParentTournament = await _context.Tournaments
-                    .Include(t => t.ParentTournament)
-                    .FirstOrDefaultAsync(t => t.Id == root.ParentTournamentId);
-                root = root.ParentTournament;
+                var parentId = await _context.Tournaments
+                    .Where(t => t.Id == currentId)
+                    .Select(t => t.ParentTournamentId)
+                    .FirstOrDefaultAsync();
+
+                if (parentId == null)
+                    break;
+
+                depth++;
+                currentId = parentId.Value;
             }
 
-            return current;
+            return depth;
         }
+
 
         public async Task<IEnumerable<Tournament>> GetAllTournamentsAsync()
         {
@@ -56,6 +86,20 @@ namespace MultiLevelTournament.Repositories
                      .ThenInclude(pt => pt.Player)
                  .ToListAsync();
         }
+        //public async Task<IEnumerable<Tournament>> GetAllTournamentsAsync()
+        //{
+        //    return await _context.Tournaments
+        //        .Where(t => t.ParentTournamentId == null)
+        //        .Include(t => t.SubTournaments)
+        //            .ThenInclude(st => st.SubTournaments)
+        //                .ThenInclude(st2 => st2.SubTournaments)
+        //                    .ThenInclude(st3 => st3.SubTournaments)
+        //                        .ThenInclude(st4 => st4.SubTournaments)
+        //        .Include(t => t.PlayerTournaments)
+        //            .ThenInclude(pt => pt.Player)
+        //        .ToListAsync();
+        //}
+
         public async Task<Tournament?> UpdateTournamentAsync(int id, Tournament updatedTournament)
         {
             var existingTournament = await _context.Tournaments.FindAsync(id);
@@ -67,15 +111,34 @@ namespace MultiLevelTournament.Repositories
             return existingTournament;
         }
 
+        //public async Task<bool> DeleteTournamentAsync(int id)
+        //{
+        //    var selectedTournament = await _context.Tournaments.FindAsync(id);
+        //    if (selectedTournament is null)
+        //        return false;
+        //    _context.Tournaments.Remove(selectedTournament);
+        //    await _context.SaveChangesAsync();
+        //    return true;
+        //}
+
         public async Task<bool> DeleteTournamentAsync(int id)
         {
-            var selectedTournament = await _context.Tournaments.FindAsync(id);
-            if (selectedTournament is null)
+            var tournament = await _context.Tournaments
+                .Include(t => t.SubTournaments)
+                .FirstOrDefaultAsync(t => t.Id == id);
+
+            if (tournament == null)
                 return false;
-            _context.Tournaments.Remove(selectedTournament);
+
+            if (tournament.SubTournaments.Any())
+                throw new InvalidOperationException("Cannot delete a tournament with sub-tournaments.");
+
+            _context.Tournaments.Remove(tournament);
             await _context.SaveChangesAsync();
             return true;
         }
+
+
 
         public async Task<bool> RegisterPlayerAsync(int tournamentId, int playerId)
         {
