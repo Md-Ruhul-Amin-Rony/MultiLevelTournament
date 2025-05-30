@@ -30,9 +30,21 @@ namespace MultiLevelTournament.Repositories
         }
         public async Task<Tournament?> GetTournamentByIdWithParentsAsync(int id)
         {
-            return await _context.Tournaments
-                .Include(t => t.ParentTournament)
-                .FirstOrDefaultAsync(t => t.Id == id);
+            var current = await _context.Tournaments
+        .Include(t => t.ParentTournament)
+        .FirstOrDefaultAsync(t => t.Id == id);
+
+            // Manually walk up the tree to hydrate full parent chain
+            var root = current;
+            while (root?.ParentTournamentId != null)
+            {
+                root.ParentTournament = await _context.Tournaments
+                    .Include(t => t.ParentTournament)
+                    .FirstOrDefaultAsync(t => t.Id == root.ParentTournamentId);
+                root = root.ParentTournament;
+            }
+
+            return current;
         }
 
         public async Task<IEnumerable<Tournament>> GetAllTournamentsAsync()
