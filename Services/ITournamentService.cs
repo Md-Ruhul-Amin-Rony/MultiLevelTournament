@@ -4,11 +4,13 @@ namespace MultiLevelTournament.Services
 {
     public interface ITournamentService
     {
-        Task<BaseResponseModel> GetAllTournamentsAsync();
-        Task<BaseResponseModel> GetTournamentByIdAsync(int id);
-        Task<BaseResponseModel> CreateTournamentAsync(CreateTournamentModel model);
-        Task<BaseResponseModel> UpdateTournamentAsync(int id, UpdateTournamentModel model);
-        Task<BaseResponseModel> DeleteTournamentAsync(int id);
-        Task<BaseResponseModel> RegisterPlayerAsync(int tournamentId, int playerId);
+        Task<TournamentViewModel?> GetTournamentByIdAsync(int id);
+        Task<IEnumerable<TournamentViewModel>> GetAllTournamentsAsync();
+        Task<TournamentViewModel> CreateTournamentAsync(CreateTournamentModel model);
+        Task<TournamentViewModel?> UpdateTournamentAsync(int id, UpdateTournamentModel model);
+        Task<bool> DeleteTournamentAsync(int id);
+
+        Task<bool> RegisterPlayerAsync(int tournamentId, int playerId);
+        Task<IEnumerable<PlayerViewModel>> GetPlayersInTournamentAsync(int tournamentId);
     }
 }

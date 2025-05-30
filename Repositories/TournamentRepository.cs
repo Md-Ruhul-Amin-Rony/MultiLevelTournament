@@ -28,9 +28,17 @@ namespace MultiLevelTournament.Repositories
                     .ThenInclude(pt => pt.Player)
                 .FirstOrDefaultAsync(t => t.Id == id);
         }
+        public async Task<Tournament?> GetTournamentByIdWithParentsAsync(int id)
+        {
+            return await _context.Tournaments
+                .Include(t => t.ParentTournament)
+                .FirstOrDefaultAsync(t => t.Id == id);
+        }
+
         public async Task<IEnumerable<Tournament>> GetAllTournamentsAsync()
         {
             return await _context.Tournaments
+                .AsNoTracking()
                  .Include(t => t.SubTournaments)
                  .Include(t => t.PlayerTournaments)
                      .ThenInclude(pt => pt.Player)

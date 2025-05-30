@@ -6,6 +6,8 @@ namespace MultiLevelTournament.Repositories
     {
         Task<IEnumerable<Tournament>> GetAllTournamentsAsync();
         Task<Tournament?> GetTournamentByIdAsync(int id);
+        Task<Tournament?> GetTournamentByIdWithParentsAsync(int id);
+
         Task<Tournament> CreateTournamentAsync(Tournament tournament);
         Task<Tournament?> UpdateTournamentAsync(int id, Tournament updatedTournament);
         Task<bool> DeleteTournamentAsync(int id);

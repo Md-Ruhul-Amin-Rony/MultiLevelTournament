@@ -1,197 +1,98 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MultiLevelTournament.Data;
-using MultiLevelTournament.Models;
+﻿using MultiLevelTournament.Models;
+using MultiLevelTournament.Repositories;
 
 namespace MultiLevelTournament.Services
 {
     public class TournamentService : ITournamentService
     {
-        private readonly TournamentDbContext _context;
+        private readonly ITournamentRepository _tournamentRepository;
 
-        public TournamentService(TournamentDbContext context)
+        public TournamentService(ITournamentRepository tournamentRepository)
         {
-            _context = context;
+            _tournamentRepository = tournamentRepository;
         }
 
-        public async Task<BaseResponseModel> GetAllTournamentsAsync()
+        public async Task<TournamentViewModel> CreateTournamentAsync(CreateTournamentModel model)
         {
-            var response = new BaseResponseModel();
-            try
-            {
-                var tournaments = await _context.Tournaments
-                    .Include(t => t.SubTournaments)
-                    .ToListAsync();
-
-                response.Status = true;
-                response.Message = "Success";
-                response.Data = new { Tournaments = tournaments, Count = tournaments.Count };
-            }
-            catch
-            {
-                response.Status = false;
-                response.Message = "Something went wrong.";
-            }
-            return response;
-        }
-
-        public async Task<BaseResponseModel> GetTournamentByIdAsync(int id)
-        {
-            var response = new BaseResponseModel();
-            var tournament = await _context.Tournaments
-                .Include(t => t.SubTournaments)
-                .Include(t => t.PlayerTournaments)
-                    .ThenInclude(pt => pt.Player)
-                .FirstOrDefaultAsync(t => t.Id == id);
-
-            if (tournament == null)
-            {
-                response.Status = false;
-                response.Message = $"Tournament with Id {id} not found.";
-                return response;
-            }
-
-            response.Status = true;
-            response.Message = "Success";
-            response.Data = tournament;
-            return response;
-        }
-
-        public async Task<BaseResponseModel> CreateTournamentAsync(CreateTournamentModel model)
-        {
-            var response = new BaseResponseModel();
-
-            if (model.ParentTournamentId != null)
-            {
-                var parent = await _context.Tournaments.FindAsync(model.ParentTournamentId);
-                if (parent == null)
-                {
-                    response.Status = false;
-                    response.Message = "Parent tournament not found.";
-                    return response;
-                }
-
-                int depth = 1;
-                var current = parent;
-                while (current.ParentTournamentId != null && depth < 6)
-                {
-                    current = await _context.Tournaments.FindAsync(current.ParentTournamentId);
-                    depth++;
-                }
-
-                if (depth >= 5)
-                {
-                    response.Status = false;
-                    response.Message = "Cannot nest tournaments deeper than 5 levels.";
-                    return response;
-                }
-            }
-
-            var newTournament = new Tournament
+            Tournament newTournament = new Tournament
             {
                 Name = model.Name,
-                ParentTournamentId = model.ParentTournamentId
+                ParentTournamentId = model.ParentTournamentId,
             };
-
-            await _context.Tournaments.AddAsync(newTournament);
-            await _context.SaveChangesAsync();
-
-            response.Status = true;
-            response.Message = "Tournament created successfully.";
-            response.Data = newTournament;
-            return response;
-        }
-
-        public async Task<BaseResponseModel> UpdateTournamentAsync(int id, UpdateTournamentModel model)
-        {
-            var response = new BaseResponseModel();
-            var tournament = await _context.Tournaments.FindAsync(id);
-
-            if (tournament == null)
+            if (model.ParentTournamentId.HasValue)
             {
-                response.Status = false;
-                response.Message = "Tournament not found.";
-                return response;
-            }
-
-            tournament.Name = model.Name;
-            _context.Tournaments.Update(tournament);
-            await _context.SaveChangesAsync();
-
-            response.Status = true;
-            response.Message = "Tournament updated.";
-            response.Data = tournament;
-            return response;
-        }
-
-        public async Task<BaseResponseModel> DeleteTournamentAsync(int id)
-        {
-            var response = new BaseResponseModel();
-            var tournament = await _context.Tournaments.FindAsync(id);
-
-            if (tournament == null)
-            {
-                response.Status = false;
-                response.Message = "Tournament not found.";
-                return response;
-            }
-
-            _context.Tournaments.Remove(tournament);
-            await _context.SaveChangesAsync();
-
-            response.Status = true;
-            response.Message = "Deleted successfully.";
-            return response;
-        }
-
-        public async Task<BaseResponseModel> RegisterPlayerAsync(int tournamentId, int playerId)
-        {
-            var response = new BaseResponseModel();
-
-            var tournament = await _context.Tournaments.FindAsync(tournamentId);
-            var player = await _context.Players.FindAsync(playerId);
-
-            if (tournament == null || player == null)
-            {
-                response.Status = false;
-                response.Message = "Player or Tournament not found.";
-                return response;
-            }
-
-            if (tournament.ParentTournamentId != null)
-            {
-                bool isInParent = await _context.TournamentPlayers
-                    .AnyAsync(pt => pt.PlayerId == playerId && pt.TournamentId == tournament.ParentTournamentId);
-
-                if (!isInParent)
+                var parent = await _tournamentRepository.GetTournamentByIdWithParentsAsync(model.ParentTournamentId.Value);
+                if (parent == null || parent.GetDepthLevel() >= 4)
                 {
-                    response.Status = false;
-                    response.Message = "Player must be registered in parent tournament.";
-                    return response;
+                    return null;
                 }
+                newTournament.ParentTournament = parent;
             }
+            var createdTournament = await _tournamentRepository.CreateTournamentAsync(newTournament);
+            return MapToViewModel(createdTournament);
+        }
 
-            bool alreadyRegistered = await _context.TournamentPlayers
-                .AnyAsync(pt => pt.PlayerId == playerId && pt.TournamentId == tournamentId);
-
-            if (alreadyRegistered)
+        private TournamentViewModel MapToViewModel(Tournament tournament)
+        {
+            return new TournamentViewModel
             {
-                response.Status = false;
-                response.Message = "Player already registered.";
-                return response;
-            }
+                Id = tournament.Id,
+                Name = tournament.Name,
+                ParentTournamentId = tournament.ParentTournamentId,
+                SubTournaments = tournament.SubTournaments.Select(MapToViewModel).ToList(),
+                Players = tournament.PlayerTournaments?
+                .Select(pt => new PlayerViewModel
+                {
+                    Id = pt.Player.Id,
+                    Name = pt.Player.Name,
+                    Age = pt.Player.Age,
+                    Tournaments = new List<TournamentInfo>()
+                }).ToList() ?? new List<PlayerViewModel>()
 
-            var registration = new TournamentPlayer
-            {
-                TournamentId = tournamentId,
-                PlayerId = playerId
             };
+        }
 
-            await _context.TournamentPlayers.AddAsync(registration);
-            await _context.SaveChangesAsync();
+        public async Task<bool> DeleteTournamentAsync(int id)
+        {
+            return await _tournamentRepository.DeleteTournamentAsync(id);
+        }
 
-            response.Status = true;
-            response.Message = "Player registered successfully.";
-            return response;
+        public async Task<IEnumerable<TournamentViewModel>> GetAllTournamentsAsync()
+        {
+            var tournaments = await _tournamentRepository.GetAllTournamentsAsync();
+            return tournaments.Select(MapToViewModel).ToList();
+        }
+
+        public async Task<IEnumerable<PlayerViewModel>> GetPlayersInTournamentAsync(int tournamentId)
+        {
+            var players = await _tournamentRepository.GetPlayersInTournamentAsync(tournamentId);
+            return players.Select(p => new PlayerViewModel
+            {
+                Id = p.Id,
+                Name = p.Name,
+                Age = p.Age
+            }).ToList();
+        }
+
+        public async Task<TournamentViewModel?> GetTournamentByIdAsync(int id)
+        {
+            var tournament = await _tournamentRepository.GetTournamentByIdAsync(id);
+            return tournament == null ? null : MapToViewModel(tournament);
+        }
+
+        public async Task<bool> RegisterPlayerAsync(int tournamentId, int playerId)
+        {
+            return await _tournamentRepository.RegisterPlayerAsync(tournamentId, playerId);
+        }
+
+        public async Task<TournamentViewModel?> UpdateTournamentAsync(int id, UpdateTournamentModel model)
+        {
+            var existing = await _tournamentRepository.GetTournamentByIdAsync(id);
+            if (existing == null) return null;
+
+            existing.Name = model.Name;
+            var updated = await _tournamentRepository.UpdateTournamentAsync(id, existing);
+            return updated == null ? null : MapToViewModel(updated);
         }
     }
 }
