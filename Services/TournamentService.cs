@@ -28,12 +28,7 @@ namespace MultiLevelTournament.Services
 
                 newTournament.ParentTournamentId = model.ParentTournamentId;
 
-                //var parent = await _tournamentRepository.GetTournamentByIdWithParentsAsync(model.ParentTournamentId.Value);
-                //if (parent == null || parent.GetDepthLevel() >= 4)
-                //{
-                //    return null;
-                //}
-                //newTournament.ParentTournament = parent;
+               
             }
             var createdTournament = await _tournamentRepository.CreateTournamentAsync(newTournament);
             return MapToViewModel(createdTournament);
@@ -53,7 +48,7 @@ namespace MultiLevelTournament.Services
                     Id = pt.Player.Id,
                     Name = pt.Player.Name,
                     Age = pt.Player.Age
-                    //Tournaments = new List<TournamentInfo>()
+                    
                 }).ToList() ?? new List<PlayerViewModel>()
 
             };

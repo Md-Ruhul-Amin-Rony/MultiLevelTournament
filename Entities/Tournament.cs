@@ -11,18 +11,18 @@
         public ICollection<TournamentPlayer> PlayerTournaments { get; set; } = new List<TournamentPlayer>();
        
         //Helper method to check the depth level of the tournament
-        public int GetDepthLevel()
-        {
-            int level = 0;
-            var currentTournament = this;
-            while (currentTournament.ParentTournament is not null)
-            {
-                level++;
-                currentTournament = currentTournament.ParentTournament;
+        //public int GetDepthLevel()
+        //{
+        //    int level = 0;
+        //    var currentTournament = this;
+        //    while (currentTournament.ParentTournament is not null)
+        //    {
+        //        level++;
+        //        currentTournament = currentTournament.ParentTournament;
 
-            }
-            return level;
-        }
+        //    }
+        //    return level;
+        //}
        
 
 
