@@ -143,3 +143,5 @@ C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\refint\MultiLevelTou
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.pdb
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.genruntimeconfig.cache
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\ref\MultiLevelTournament.dll
+C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.xml
+C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.xml

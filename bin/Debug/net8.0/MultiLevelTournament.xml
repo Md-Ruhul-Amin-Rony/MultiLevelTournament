@@ -1,0 +1,99 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MultiLevelTournament</name>
+    </assembly>
+    <members>
+        <member name="T:MultiLevelTournament.Controllers.TournamentController">
+            <summary>
+            Manages tournament operations like creation, deletion, retrieval, and player registration.
+            </summary>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.GetAllTournaments">
+            <summary>
+            Retrieves all tournaments, including nested sub-tournaments and registered players.
+            </summary>
+            <returns>List of tournaments</returns>
+            <response code="200">Tournaments retrieved successfully</response>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.GetTournamentById(System.Int32)">
+            <summary>
+            Retrieves details for a specific tournament by ID (includes sub-tournaments and players).
+            </summary>
+            <param name="id">The ID of the tournament</param>
+            <returns>TournamentViewModel</returns>
+            <response code="200">Returns the requested tournament</response>
+            <response code="404">Tournament not found</response>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.CreateTournament(MultiLevelTournament.Models.CreateTournamentModel)">
+            <summary>
+            Creates a new tournament. If ParentTournamentId is provided, it will be treated as a sub-tournament.
+            </summary>
+            <param name="model">Tournament creation model</param>
+            <returns>The created tournament with basic details</returns>
+            <response code="200">Tournament created successfully</response>
+            <response code="400">Invalid input or maximum nesting level reached</response>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.DeleteTournament(System.Int32)">
+            <summary>
+            Deletes a tournament by ID. Will fail if it has sub-tournaments (due to foreign key restriction).
+            </summary>
+            <param name="id">Tournament ID</param>
+            <returns>Deletion result</returns>
+            <response code="200">Deleted successfully</response>
+            <response code="404">Tournament not found</response>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.RegisterPlayer(System.Int32,System.Int32)">
+            <summary>
+            Registers a player in a tournament. If it’s a sub-tournament, the player must already be registered in the parent.
+            </summary>
+            <param name="tournamentId">ID of the tournament</param>
+            <param name="playerId">ID of the player</param>
+            <returns>Registration result</returns>
+            <response code="200">Player registered successfully</response>
+            <response code="400">Registration failed (duplicate or parent constraint)</response>
+        </member>
+        <member name="P:MultiLevelTournament.Models.CreateTournamentModel.ParentTournamentId">
+            <summary>
+            If omitted (null), this becomes a root tournament.
+            If provided, must refer to an existing tournament.
+            </summary>
+        </member>
+        <member name="T:MultiLevelTournament.Models.TournamentInfo">
+            <summary>
+            Simplified tournament representation (ID + Name) for embedding in PlayerViewModel.
+            </summary>
+        </member>
+        <member name="T:MultiLevelTournament.Models.TournamentViewModel">
+            <summary>
+            Represents a tournament (with recursive sub-tournaments and player list).
+            </summary>
+        </member>
+        <member name="P:MultiLevelTournament.Models.TournamentViewModel.Id">
+            <summary>Tournament ID</summary>
+        </member>
+        <member name="P:MultiLevelTournament.Models.TournamentViewModel.ParentTournamentId">
+            <summary>
+            Optional parent tournament ID. Null if this is a root tournament.
+            </summary>
+        </member>
+        <member name="P:MultiLevelTournament.Models.TournamentViewModel.SubTournaments">
+            <summary>List of sub-tournaments (nested recursively).</summary>
+        </member>
+        <member name="P:MultiLevelTournament.Models.TournamentViewModel.Players">
+            <summary>Players registered in this tournament.</summary>
+        </member>
+        <member name="T:MultiLevelTournament.Migrations.initial">
+            <inheritdoc />
+        </member>
+        <member name="M:MultiLevelTournament.Migrations.initial.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MultiLevelTournament.Migrations.initial.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:MultiLevelTournament.Migrations.initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

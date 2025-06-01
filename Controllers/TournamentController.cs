@@ -7,6 +7,9 @@ using System;
 
 namespace MultiLevelTournament.Controllers
 {
+    /// <summary>
+    /// Manages tournament operations like creation, deletion, retrieval, and player registration.
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class TournamentController : ControllerBase
@@ -19,7 +22,14 @@ namespace MultiLevelTournament.Controllers
             _tournamentService = tournamentService;
         }
 
+        /// <summary>
+        /// Retrieves all tournaments, including nested sub-tournaments and registered players.
+        /// </summary>
+        /// <returns>List of tournaments</returns>
+        /// <response code="200">Tournaments retrieved successfully</response>
+
         [HttpGet]
+
         public async Task<IActionResult> GetAllTournaments()
         {
             var result = await _tournamentService.GetAllTournamentsAsync();
@@ -30,8 +40,15 @@ namespace MultiLevelTournament.Controllers
                 Data = result
             });
         }
+        /// <summary>
+        /// Retrieves details for a specific tournament by ID (includes sub-tournaments and players).
+        /// </summary>
+        /// <param name="id">The ID of the tournament</param>
+        /// <returns>TournamentViewModel</returns>
+        /// <response code="200">Returns the requested tournament</response>
+        /// <response code="404">Tournament not found</response>
 
-        [HttpGet("{id}")]
+        [HttpGet("{id:int}")]
         public async Task<IActionResult> GetTournamentById(int id)
         {
             var result = await _tournamentService.GetTournamentByIdAsync(id);
@@ -51,6 +68,13 @@ namespace MultiLevelTournament.Controllers
                 Data = result
             });
         }
+        /// <summary>
+        /// Creates a new tournament. If ParentTournamentId is provided, it will be treated as a sub-tournament.
+        /// </summary>
+        /// <param name="model">Tournament creation model</param>
+        /// <returns>The created tournament with basic details</returns>
+        /// <response code="200">Tournament created successfully</response>
+        /// <response code="400">Invalid input or maximum nesting level reached</response>
 
         [HttpPost]
         public async Task<IActionResult> CreateTournament([FromBody] CreateTournamentModel model)
@@ -114,25 +138,56 @@ namespace MultiLevelTournament.Controllers
             });
         }
 
+        /// <summary>
+        /// Deletes a tournament by ID. Will fail if it has sub-tournaments (due to foreign key restriction).
+        /// </summary>
+        /// <param name="id">Tournament ID</param>
+        /// <returns>Deletion result</returns>
+        /// <response code="200">Deleted successfully</response>
+        /// <response code="404">Tournament not found</response>
+
         [HttpDelete("{id}")]
+      
         public async Task<IActionResult> DeleteTournament(int id)
         {
-            var success = await _tournamentService.DeleteTournamentAsync(id);
-            if (!success)
+            try
             {
-                return NotFound(new BaseResponseModel
+                var success = await _tournamentService.DeleteTournamentAsync(id);
+                if (!success)
+                {
+                    return NotFound(new BaseResponseModel
+                    {
+                        Status = false,
+                        Message = $"Tournament with id {id} not found."
+                    });
+                }
+
+                return Ok(new BaseResponseModel
+                {
+                    Status = true,
+                    Message = "Tournament deleted successfully."
+                });
+
+            }
+            catch (InvalidOperationException ex)
+            {
+
+                return BadRequest(new BaseResponseModel
                 {
                     Status = false,
-                    Message = $"Tournament with id {id} not found."
+                    Message = ex.Message
                 });
             }
-
-            return Ok(new BaseResponseModel
-            {
-                Status = true,
-                Message = "Tournament deleted successfully."
-            });
+            
         }
+        /// <summary>
+        /// Registers a player in a tournament. If it’s a sub-tournament, the player must already be registered in the parent.
+        /// </summary>
+        /// <param name="tournamentId">ID of the tournament</param>
+        /// <param name="playerId">ID of the player</param>
+        /// <returns>Registration result</returns>
+        /// <response code="200">Player registered successfully</response>
+        /// <response code="400">Registration failed (duplicate or parent constraint)</response>
 
         [HttpPost("{id}/register")]
         public async Task<IActionResult> RegisterPlayer(int id, [FromQuery] int playerId)
