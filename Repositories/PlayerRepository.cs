@@ -56,12 +56,8 @@ namespace MultiLevelTournament.Repositories
         {
             var existingPlayer = await _context.Players.FindAsync(id);
 
-            if (existingPlayer == null)
-            {
-                return null;
+            if (existingPlayer == null) return null;
 
-            }
-            
             existingPlayer.Name = updatedPlayer.Name;
             existingPlayer.Age = updatedPlayer.Age;
             await _context.SaveChangesAsync();

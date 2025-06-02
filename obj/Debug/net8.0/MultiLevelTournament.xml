@@ -90,6 +90,16 @@
         <member name="P:MultiLevelTournament.Models.TournamentViewModel.Players">
             <summary>Players registered in this tournament.</summary>
         </member>
+        <member name="P:MultiLevelTournament.Models.UpdatePlayerModel.Name">
+            <summary>
+            New name for the player (optional). If omitted or null, name won’t change.
+            </summary>
+        </member>
+        <member name="P:MultiLevelTournament.Models.UpdatePlayerModel.Age">
+            <summary>
+            New age for the player (optional). If omitted, age won’t change.
+            </summary>
+        </member>
         <member name="T:MultiLevelTournament.Migrations.initial">
             <inheritdoc />
         </member>

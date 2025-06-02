@@ -71,13 +71,21 @@ namespace MultiLevelTournament.Services
 
         public async Task<PlayerViewModel?> UpdatePlayerAsync(int id, UpdatePlayerModel model)
         {
-            var updatedPlayer = await _playerRepository.UpdatePlayer(id, new Player
-            {
-                Name = model.Name,
-                Age = model.Age
-            });
 
-            if (updatedPlayer == null) return null;
+            var existingPlayer = await _playerRepository.GetPlayerById(id);
+            if (existingPlayer == null) return null;
+            if (model.Name != null)
+            {
+                existingPlayer.Name = model.Name;
+            }
+
+            if (model.Age.HasValue)
+            {
+                existingPlayer.Age = model.Age.Value;
+            }
+            var updatedPlayer = await _playerRepository.UpdatePlayer(id, existingPlayer);
+            if (updatedPlayer == null)
+                return null;
 
             return new PlayerViewModel
             {

@@ -4,10 +4,15 @@ namespace MultiLevelTournament.Models
 {
     public class UpdatePlayerModel
     {
-        [Required(ErrorMessage = "Player name is required.")]
-        public required string Name { get; set; }
+        /// <summary>
+        /// New name for the player (optional). If omitted or null, name won’t change.
+        /// </summary>
+        public string? Name { get; set; }
 
+        /// <summary>
+        /// New age for the player (optional). If omitted, age won’t change.
+        /// </summary>
         [Range(1, 100, ErrorMessage = "Age must be between 1 and 100.")]
-        public int Age { get; set; }
+        public int? Age { get; set; }
     }
 }
