@@ -59,9 +59,14 @@ namespace MultiLevelTournament.Services
             return await _tournamentRepository.DeleteTournamentAsync(id);
         }
 
-        public async Task<IEnumerable<TournamentViewModel>> GetAllTournamentsAsync()
+        public async Task<IEnumerable<TournamentViewModel>> GetAllTournamentsFlatAsync()
         {
-            var tournaments = await _tournamentRepository.GetAllTournamentsAsync();
+            var tournaments = await _tournamentRepository.GetAllTournamentsFlatAsync();
+            return tournaments.Select(MapToViewModel).ToList();
+        }
+        public async Task<IEnumerable<TournamentViewModel>> GetAllTournamentHierarchyAsync()
+        {
+            var tournaments = await _tournamentRepository.GetAllTournamentHierarchyAsync();
             return tournaments.Select(MapToViewModel).ToList();
         }
 

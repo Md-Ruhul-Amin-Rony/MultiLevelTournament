@@ -53,8 +53,19 @@ namespace MultiLevelTournament.Repositories
         }
 
 
-       
-        public async Task<IEnumerable<Tournament>> GetAllTournamentsAsync()
+        public async Task<IEnumerable<Tournament>> GetAllTournamentsFlatAsync()
+        {
+            return await _context.Tournaments
+                .AsNoTracking()
+                .Include(t => t.SubTournaments)                
+                .Include(t => t.PlayerTournaments)
+                    .ThenInclude(pt => pt.Player)
+                .ToListAsync();
+        }
+
+
+
+        public async Task<IEnumerable<Tournament>> GetAllTournamentHierarchyAsync()
         {
             return await _context.Tournaments
                 .Where(t => t.ParentTournamentId == null)
@@ -65,6 +76,7 @@ namespace MultiLevelTournament.Repositories
                                 .ThenInclude(st4 => st4.SubTournaments)
                 .Include(t => t.PlayerTournaments)
                     .ThenInclude(pt => pt.Player)
+                    .AsNoTracking()
                 .ToListAsync();
         }
 

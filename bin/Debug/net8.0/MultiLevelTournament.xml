@@ -9,12 +9,19 @@
             Manages tournament operations like creation, deletion, retrieval, and player registration.
             </summary>
         </member>
-        <member name="M:MultiLevelTournament.Controllers.TournamentController.GetAllTournaments">
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.GetAllTournamentsFlat">
             <summary>
-            Retrieves all tournaments, including nested sub-tournaments and registered players.
+            Retrieves a flat list of all tournaments (roots + subs), each with only immediate children loaded.
             </summary>
-            <returns>List of tournaments</returns>
-            <response code="200">Tournaments retrieved successfully</response>
+            <returns>Flat list of TournamentViewModel</returns>
+            <response code="200">Returns flat list of all tournaments</response>
+        </member>
+        <member name="M:MultiLevelTournament.Controllers.TournamentController.GetAllTournamentHierarchy">
+            <summary>
+            Retrieves only root tournaments, each including up to five nested levels of sub-tournaments.
+            </summary>
+            <returns>Hierarchical list of TournamentViewModel (roots with nested children)</returns>
+            <response code="200">Returns hierarchical tournament tree</response>
         </member>
         <member name="M:MultiLevelTournament.Controllers.TournamentController.GetTournamentById(System.Int32)">
             <summary>
@@ -94,6 +101,26 @@
         </member>
         <member name="M:MultiLevelTournament.Migrations.initial.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
+        </member>
+        <member name="M:MultiLevelTournament.Repositories.ITournamentRepository.GetAllTournamentsFlatAsync">
+            <summary>
+            Returns every tournament (roots + subs) in a flat list, each with only immediate SubTournaments loaded.
+            </summary>
+        </member>
+        <member name="M:MultiLevelTournament.Repositories.ITournamentRepository.GetAllTournamentHierarchyAsync">
+            <summary>
+            Returns only root tournaments, but each includes up to five nested levels of SubTournaments.
+            </summary>
+        </member>
+        <member name="M:MultiLevelTournament.Services.ITournamentService.GetAllTournamentsFlatAsync">
+            <summary>
+            Get a flat list of all tournaments (roots + subs), each with only immediate SubTournaments loaded.
+            </summary>
+        </member>
+        <member name="M:MultiLevelTournament.Services.ITournamentService.GetAllTournamentHierarchyAsync">
+            <summary>
+            Get only root tournaments, but each includes up to five nested levels of SubTournaments.
+            </summary>
         </member>
     </members>
 </doc>

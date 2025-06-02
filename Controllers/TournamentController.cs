@@ -23,16 +23,16 @@ namespace MultiLevelTournament.Controllers
         }
 
         /// <summary>
-        /// Retrieves all tournaments, including nested sub-tournaments and registered players.
+        /// Retrieves a flat list of all tournaments (roots + subs), each with only immediate children loaded.
         /// </summary>
-        /// <returns>List of tournaments</returns>
-        /// <response code="200">Tournaments retrieved successfully</response>
+        /// <returns>Flat list of TournamentViewModel</returns>
+        /// <response code="200">Returns flat list of all tournaments</response>
 
-        [HttpGet]
+        [HttpGet("all")]
 
-        public async Task<IActionResult> GetAllTournaments()
+        public async Task<IActionResult> GetAllTournamentsFlat()
         {
-            var result = await _tournamentService.GetAllTournamentsAsync();
+            var result = await _tournamentService.GetAllTournamentsFlatAsync();
             return Ok(new BaseResponseModel
             {
                 Status = true,
@@ -40,6 +40,28 @@ namespace MultiLevelTournament.Controllers
                 Data = result
             });
         }
+
+        /// <summary>
+        /// Retrieves only root tournaments, each including up to five nested levels of sub-tournaments.
+        /// </summary>
+        /// <returns>Hierarchical list of TournamentViewModel (roots with nested children)</returns>
+        /// <response code="200">Returns hierarchical tournament tree</response>
+        [HttpGet("hierarchy")]
+        public async Task<IActionResult> GetAllTournamentHierarchy()
+        {
+            var result = await _tournamentService.GetAllTournamentHierarchyAsync();
+            return Ok(new BaseResponseModel
+            {
+                Status = true,
+                Message = "Hierarchical list of root tournaments retrieved successfully.",
+                Data = result
+            });
+        }
+
+
+
+
+
         /// <summary>
         /// Retrieves details for a specific tournament by ID (includes sub-tournaments and players).
         /// </summary>
