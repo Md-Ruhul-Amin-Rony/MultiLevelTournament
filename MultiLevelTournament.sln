@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35013.160
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiLevelTournament", "MultiLevelTournament.csproj", "{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiLevelTournament", "MultiLevelTournament.csproj", "{EBB9BD05-EDDF-40F9-BE96-5381A8B13996}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

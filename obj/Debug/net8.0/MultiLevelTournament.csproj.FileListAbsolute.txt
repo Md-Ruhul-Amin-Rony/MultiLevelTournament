@@ -5,6 +5,7 @@ C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.runtimeconfig.json
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.dll
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.pdb
+C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.xml
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\Azure.Core.dll
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\Azure.Identity.dll
 C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\Humanizer.dll
@@ -140,8 +141,7 @@ C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\scopedcss\bundle\Mul
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLev.AE1F97B4.Up2Date
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.dll
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\refint\MultiLevelTournament.dll
+C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.xml
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.pdb
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.genruntimeconfig.cache
 C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\ref\MultiLevelTournament.dll
-C:\Users\adiar\source\MultiLevelTournament\bin\Debug\net8.0\MultiLevelTournament.xml
-C:\Users\adiar\source\MultiLevelTournament\obj\Debug\net8.0\MultiLevelTournament.xml
