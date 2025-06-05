@@ -157,3 +157,5 @@ C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\obj\Debug\
 C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\obj\Debug\net8.0\MultiLevelTournament.Tests.pdb
 C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\obj\Debug\net8.0\MultiLevelTournament.Tests.genruntimeconfig.cache
 C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\obj\Debug\net8.0\ref\MultiLevelTournament.Tests.dll
+C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\bin\Debug\net8.0\Castle.Core.dll
+C:\Users\adiar\source\MultiLevelTournament\MultiLevelTournament.Tests\bin\Debug\net8.0\Moq.dll
